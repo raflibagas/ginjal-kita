@@ -10,7 +10,7 @@ export default function Dashboard() {
         <header className="mb-6">
           <div className="flex justify-between items-center mb-2">
             <div></div> {/* Empty div for spacing */}
-            <h2 className="ml-8 text-xl text-gray-800 mr-2">Ginjal</h2>
+            <h2 className="ml-8 text-xl text-gray-800 mr-4">Ginjal</h2>
             <h2 className="-ml-32 text-xl font-semibold text-red-500">Kita</h2>
             <div className="w-10 h-10 rounded-full bg-red-500 overflow-hidden">
               <Image

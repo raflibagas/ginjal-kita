@@ -14,8 +14,8 @@ export default function QuizLanding() {
   };
 
   return (
-    <main className="min-h-screen bg-white">
-      <div className="max-w-md mx-auto p-4 px-8">
+    <main className="min-h-screen bg-red-50">
+      <div className="max-w-md mx-auto p-4 px-8 -mt-4">
         {/* Header */}
         <div className="flex items-center mb-6">
           <Link href="/dashboard" className="flex items-center text-gray-600">
