@@ -5,27 +5,31 @@ import Link from "next/link";
 export default function Dashboard() {
   return (
     <main className="min-h-screen bg-red-50">
-      <div className="max-w-lg mx-auto bg-red-50 min-h-screen px-4 py-6">
+      <div className="max-w-lg mx-auto bg-red-50 min-h-screen px-8 py-6">
         {/* Header with avatar and product name */}
         <header className="mb-6">
           <div className="flex justify-between items-center mb-2">
-            <div></div> {/* Empty div for spacing */}
-            <h2 className="ml-8 text-xl text-gray-800 mr-4">Ginjal</h2>
-            <h2 className="-ml-32 text-xl font-semibold text-red-500">Kita</h2>
-            <div className="w-10 h-10 rounded-full bg-red-500 overflow-hidden">
-              <Image
-                src="/avatar.png"
-                alt="User Avatar"
-                width={40}
-                height={40}
-                className="object-cover"
-              />
+            <div className="flex-1"></div> {/* Left spacing */}
+            <div className="flex items-center flex-1 justify-center">
+              <h2 className="text-xl text-gray-800">Ginjal</h2>
+              <h2 className="text-xl font-semibold text-red-500">Kita</h2>
+            </div>
+            <div className="flex-1 flex justify-end">
+              <div className="w-10 h-10 rounded-full bg-red-500 overflow-hidden">
+                <Image
+                  src="/agus.png"
+                  alt="User Avatar"
+                  width={40}
+                  height={40}
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
 
           <div className="border-b-2 border-opacity-5 border-gray-200 mt-4 mb-4"></div>
 
-          <h1 className="text-lg font-medium text-gray-700">
+          <h1 className="text-lg font-medium text-gray-600">
             Yuk Deteksi dan Cegah CKD Sejak Dini
           </h1>
         </header>
@@ -135,12 +139,71 @@ export default function Dashboard() {
           </Link>
         </section>
 
-        {/* Placeholder for articles section - You requested to neglect this part */}
+        {/* Articles section */}
         <section className="mt-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 -mt-4">
             Artikel Seputaran Ginjal
           </h2>
-          {/* Article content would go here */}
+
+          {/* Article items */}
+          <div className="space-y-4">
+            {/* Article 1 */}
+            <div className="flex space-x-3">
+              <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                <Image
+                  src="/artikel.png"
+                  alt="Yoga"
+                  width={96}
+                  height={96}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="flex flex-col justify-between">
+                <h3 className="text-base font-medium text-gray-800">
+                  Yoga Singkat, Ginjal Bebas Penat
+                </h3>
+                <p className="text-xs text-gray-500">12 Jun 2025</p>
+              </div>
+            </div>
+
+            {/* Article 2 */}
+            <div className="flex space-x-3">
+              <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                <Image
+                  src="/buah.png"
+                  alt="Buah-buahan"
+                  width={96}
+                  height={96}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="flex flex-col justify-between">
+                <h3 className="text-base font-medium text-gray-800">
+                  Buah-Buahan Segar: Penolong Alami Kesehatan Ginjal
+                </h3>
+                <p className="text-xs text-gray-500">11 Jun 2025</p>
+              </div>
+            </div>
+
+            {/* Article 3 */}
+            <div className="flex space-x-3">
+              <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                <Image
+                  src="/sepeda.png"
+                  alt="Bersepeda"
+                  width={96}
+                  height={96}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="flex flex-col justify-between">
+                <h3 className="text-base font-medium text-gray-800">
+                  Cara Seru Kurangi Risiko CKD dengan Bersepeda
+                </h3>
+                <p className="text-xs text-gray-500">12 Jun 2025</p>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </main>

@@ -49,7 +49,7 @@ export default function OTPVerification() {
       style={{ minHeight: "calc(var(--vh, 1vh) * 100)" }}
     >
       {/* Header section */}
-      <div className="w-full pt-8 px-6 mt-60">
+      <div className="w-full pt-8 px-6 mt-40">
         <h1 className="text-2xl font-semibold text-gray-800">Verifikasi OTP</h1>
         <p className="text-lg text-gray-500 mt-1">
           Kami telah mengirimkan kode OTP ke <br />

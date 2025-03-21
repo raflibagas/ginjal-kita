@@ -84,9 +84,9 @@ export default function QuizQuestions() {
 
   return (
     <main className="min-h-screen bg-red-50">
-      <div className="max-w-md mx-auto p-4 px-8 -mt-4">
+      <div className="max-w-md mx-auto p-4 px-8">
         {/* Header */}
-        <div className="flex items-center mb-6">
+        <div className="flex items-center mb-6 -mt-4">
           <Link href="/risk-quiz" className="flex items-center text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
