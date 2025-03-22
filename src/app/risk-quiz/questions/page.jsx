@@ -6,77 +6,314 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// Sample questions data
+// Updated comprehensive questions data for PGK risk assessment
 const quizQuestions = [
   {
     id: 1,
-    question: "Berapa Usia Anda?",
+    question: "Berapa usia Anda?",
     type: "number",
     placeholder: "contoh: 35",
+    min: 20,
+    max: 90,
+    note: "Dalam rentang 20-90 tahun",
   },
   {
     id: 2,
-    question: "Jenis Kelamin Anda?",
+    question: "Apa jenis kelamin Anda?",
     type: "radio",
     options: [
-      { id: "female", label: "Perempuan" },
-      { id: "male", label: "Laki-Laki" },
+      { id: "0", label: "Pria" },
+      { id: "1", label: "Wanita" },
     ],
   },
   {
     id: 3,
-    question: "Apakah Anda Mempunyai Riwayat Diabetes?",
+    question: "Apa etnis Anda?",
     type: "radio",
     options: [
-      { id: "yes", label: "Ya" },
-      { id: "no", label: "Tidak" },
+      { id: "0", label: "Kaukasian" },
+      { id: "1", label: "Afrika-Amerika" },
+      { id: "2", label: "Asia" },
+      { id: "3", label: "Lainnya" },
     ],
   },
   {
     id: 4,
-    question:
-      "Apakah Anda Mempunyai Riwayat Hipertensi (Tekanan Darah Tinggi)?",
+    question: "Bagaimana status sosial dan ekonomi Anda?",
     type: "radio",
     options: [
-      { id: "yes", label: "Ya" },
-      { id: "no", label: "Tidak" },
+      { id: "0", label: "Rendah" },
+      { id: "1", label: "Sedang" },
+      { id: "2", label: "Tinggi" },
     ],
   },
   {
     id: 5,
-    question: "Berapa Berat Badan Anda? (kg)",
-    type: "number",
-    placeholder: "contoh: 65",
+    question: "Apa level pendidikan tertinggi Anda?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak ada" },
+      { id: "1", label: "Sekolah Menengah" },
+      { id: "2", label: "Sarjana" },
+      { id: "3", label: "Lebih Tinggi" },
+    ],
   },
   {
     id: 6,
-    question: "Berapa Tinggi Badan Anda? (cm)",
+    question: "Berapakah BMI Anda?",
     type: "number",
-    placeholder: "contoh: 170",
+    placeholder: "contoh: 23",
+    min: 15,
+    max: 40,
+    note: "Dalam rentang 15-40",
   },
   {
     id: 7,
-    question: "Apakah Anda Merokok?",
+    question: "Apakah Anda merokok?",
     type: "radio",
     options: [
-      { id: "yes", label: "Ya" },
-      { id: "no", label: "Tidak" },
-      { id: "former", label: "Pernah, tapi sudah berhenti" },
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
     ],
   },
   {
     id: 8,
-    question: "Berapa Banyak Air yang Anda Minum Setiap Hari?",
+    question: "Berapa unit alkohol yang Anda konsumsi per minggu?",
+    type: "number",
+    placeholder: "contoh: 5",
+    min: 0,
+    max: 20,
+    note: "Dalam rentang 0-20 unit",
+  },
+  {
+    id: 9,
+    question: "Berapa jam Anda berkegiatan fisik per minggu?",
+    type: "number",
+    placeholder: "contoh: 3",
+    min: 0,
+    max: 10,
+    note: "Dalam rentang 0-10 jam",
+  },
+  {
+    id: 10,
+    question: "Menurut Anda, bagaimana kualitas makanan Anda?",
+    type: "number",
+    placeholder: "contoh: 7",
+    min: 0,
+    max: 10,
+    note: "Dalam rentang 0-10",
+  },
+  {
+    id: 11,
+    question: "Menurut Anda, bagaimana kualitas tidur Anda?",
+    type: "number",
+    placeholder: "contoh: 7",
+    min: 4,
+    max: 10,
+    note: "Dalam rentang 4-10",
+  },
+  {
+    id: 12,
+    question: "Apakah keluarga Anda memiliki riwayat penyakit ginjal?",
     type: "radio",
     options: [
-      { id: "less_than_1", label: "Kurang dari 1 liter" },
-      { id: "1_to_2", label: "1-2 liter" },
-      { id: "more_than_2", label: "Lebih dari 2 liter" },
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
     ],
+  },
+  {
+    id: 13,
+    question: "Apakah keluarga Anda memiliki riwayat hipertensi?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 14,
+    question: "Apakah keluarga Anda memiliki riwayat diabetes?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 15,
+    question:
+      "Apakah Anda pernah mengalami GGA (Gagal Ginjal Akut) sebelumnya?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 16,
+    question: "Apakah Anda pernah mengalami infeksi saluran kemih?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 17,
+    question: "Apakah Anda sedang mengonsumsi obat Penghambat ACE?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 18,
+    question: "Apakah Anda sedang mengonsumsi obat Diuretik?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 19,
+    question: "Apakah Anda sedang mengonsumsi obat Antiperadangan Nonsteroid?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 20,
+    question: "Apakah Anda sedang mengonsumsi obat Statin?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 21,
+    question: "Apakah Anda sedang mengonsumsi obat Antidiabetes?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 22,
+    question: "Apakah Anda mengalami sembap?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 23,
+    question: "Menurut Anda, berapa tingkat kelelahan yang Anda rasakan?",
+    type: "number",
+    placeholder: "contoh: 5",
+    min: 0,
+    max: 10,
+    note: "Dalam rentang 0-10",
+  },
+  {
+    id: 24,
+    question: "Berapa kali Anda mengalami mual muntah dalam seminggu?",
+    type: "number",
+    placeholder: "contoh: 2",
+    min: 0,
+    max: 7,
+    note: "Dalam rentang 0-7 kali per minggu",
+  },
+  {
+    id: 25,
+    question: "Berapa kali Anda mengalami keram otot dalam seminggu?",
+    type: "number",
+    placeholder: "contoh: 3",
+    min: 0,
+    max: 7,
+    note: "Dalam rentang 0-7 kali per minggu",
+  },
+  {
+    id: 26,
+    question: "Menurut Anda, berapa tingkat gatal yang Anda rasakan?",
+    type: "number",
+    placeholder: "contoh: 4",
+    min: 0,
+    max: 10,
+    note: "Dalam rentang 0-10",
+  },
+  {
+    id: 27,
+    question: "Menurut Anda, berapa skor kualitas hidup Anda saat ini?",
+    type: "number",
+    placeholder: "contoh: 75",
+    min: 0,
+    max: 100,
+    note: "Dalam rentang 0-100",
+  },
+  {
+    id: 28,
+    question: "Apakah Anda terpapar logam berat?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 29,
+    question: "Bagaimana kualitas udara di lingkungan Anda?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Baik" },
+      { id: "1", label: "Buruk" },
+    ],
+  },
+  {
+    id: 30,
+    question: "Apakah Anda terpapar bahan kimia di tempat kerja?",
+    type: "radio",
+    options: [
+      { id: "0", label: "Tidak" },
+      { id: "1", label: "Ya" },
+    ],
+  },
+  {
+    id: 31,
+    question: "Berapa kali Anda melakukan pemeriksaan kesehatan dalam setahun?",
+    type: "number",
+    placeholder: "contoh: 2",
+    min: 0,
+    max: 4,
+    note: "Dalam rentang 0-4 kali per tahun",
+  },
+  {
+    id: 32,
+    question: "Menurut Anda, berapa skor kepatuhan pengobatan Anda?",
+    type: "number",
+    placeholder: "contoh: 8",
+    min: 0,
+    max: 10,
+    note: "Dalam rentang 0-10",
+  },
+  {
+    id: 33,
+    question: "Menurut Anda, berapa skor literasi kesehatan Anda?",
+    type: "number",
+    placeholder: "contoh: 7",
+    min: 0,
+    max: 10,
+    note: "Dalam rentang 0-10",
   },
 ];
 
-// Divide questions into pages (4 questions per page)
+// Divide questions into pages - 4 questions per page
 const questionsPerPage = 4;
 const groupedQuestions = [];
 for (let i = 0; i < quizQuestions.length; i += questionsPerPage) {
@@ -87,22 +324,68 @@ export default function QuizQuestions() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [progress, setProgress] = useState(25); // Progress percentage
+  const [progress, setProgress] = useState(0);
+  const [isPageValid, setIsPageValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleNext = () => {
+  // Calculate progress percentage
+  useEffect(() => {
+    setProgress(((currentPage + 1) / groupedQuestions.length) * 100);
+  }, [currentPage]);
+
+  // Validate current page
+  useEffect(() => {
+    const currentPageQuestions = groupedQuestions[currentPage];
+    const allQuestionsAnswered = currentPageQuestions.every(
+      (question) =>
+        answers[question.id] !== undefined && answers[question.id] !== ""
+    );
+    setIsPageValid(allQuestionsAnswered);
+  }, [answers, currentPage]);
+
+  const handleNext = async () => {
     if (currentPage < groupedQuestions.length - 1) {
+      // Just move to next page if not on the last page
       setCurrentPage(currentPage + 1);
-      setProgress(((currentPage + 2) / groupedQuestions.length) * 100);
     } else {
-      // Submit answers and navigate to results
-      router.push("/risk-quiz/results");
+      // On the last page, submit answers to backend
+      try {
+        // Show loading state
+        setIsSubmitting(true);
+
+        // Send answers to backend
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(answers),
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        // Get prediction results
+        const result = await response.json();
+
+        // Store both answers and results in localStorage for the results page
+        localStorage.setItem("quizAnswers", JSON.stringify(answers));
+        localStorage.setItem("predictionResults", JSON.stringify(result));
+
+        // Navigate to results page
+        router.push("/risk-quiz/results");
+      } catch (error) {
+        console.error("Error predicting risk:", error);
+        alert("Terjadi kesalahan. Silakan coba lagi.");
+        setIsSubmitting(false);
+      }
     }
   };
 
   const handlePrevious = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
-      setProgress((currentPage / groupedQuestions.length) * 100);
     }
   };
 
@@ -164,14 +447,20 @@ export default function QuizQuestions() {
               key={question.id}
               className="mb-5 pb-5 border-b border-gray-200 last:border-0 last:mb-0 last:pb-0"
             >
-              <h2 className="text-md font-medium mb-3 text-gray-900">
+              <h2 className="text-md font-medium mb-2 text-gray-900">
                 {question.question}
               </h2>
+
+              {question.note && (
+                <p className="text-xs text-gray-500 mb-3">{question.note}</p>
+              )}
 
               {question.type === "number" && (
                 <input
                   type="number"
                   placeholder={question.placeholder}
+                  min={question.min}
+                  max={question.max}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 placeholder:text-gray-400 text-gray-800"
                   value={answers[question.id] || ""}
                   onChange={(e) =>
@@ -233,7 +522,10 @@ export default function QuizQuestions() {
 
           <button
             onClick={handleNext}
-            className="flex-1 bg-red-500 text-white rounded-lg py-3 font-medium"
+            className={`flex-1 ${
+              isPageValid ? "bg-red-500 text-white" : "bg-red-300 text-white"
+            } rounded-lg py-3 font-medium`}
+            disabled={!isPageValid}
           >
             {currentPage === groupedQuestions.length - 1 ? "Selesai" : "Lanjut"}
           </button>

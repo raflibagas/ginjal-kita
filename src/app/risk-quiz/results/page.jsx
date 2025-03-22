@@ -8,9 +8,49 @@ import { useRouter } from "next/navigation";
 
 export default function QuizResults() {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [riskScore, setRiskScore] = useState(0);
+  const [riskLevel, setRiskLevel] = useState("");
+  const [riskLabel, setRiskLabel] = useState("");
 
-  // This would normally come from the quiz answers
-  const riskLevel = "medium"; // low, medium, high, very-high
+  useEffect(() => {
+    // Get prediction results from localStorage
+    const resultsString = localStorage.getItem("predictionResults");
+
+    if (resultsString) {
+      try {
+        const results = JSON.parse(resultsString);
+        setRiskScore(results.risk_score);
+        setRiskLevel(results.risk_level);
+        setRiskLabel(results.risk_label);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error parsing results:", error);
+        // Redirect to quiz if results can't be parsed
+        router.push("/risk-quiz/questions");
+      }
+    } else {
+      // If no results found, redirect to quiz
+      router.push("/risk-quiz/questions");
+    }
+  }, [router]);
+
+  // Get character image based on risk level
+  const getCharacterImage = () => {
+    if (riskLevel === "low") {
+      return "/logo-vegetables.png"; // Use your happy character image
+    } else {
+      return "/siaga.png"; // Use your concerned character image
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-red-50 flex items-center justify-center">
+        <p>Loading results...</p>
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-red-50">
@@ -53,14 +93,20 @@ export default function QuizResults() {
             <div className="flex mb-2">
               <div className="flex-1">
                 <h3 className="text-xl mb-3">
-                  <span className="text-red-500 font-bold">Siaga</span>{" "}
-                  <span className="text-gray-800">Bareng Jajal</span>
+                  <span
+                    className={`${riskLevel === "high" ? "text-red-500" : "text-green-500"} font-bold`}
+                  >
+                    {riskLevel === "high" ? "Siaga" : "Bugar"}
+                  </span>{" "}
+                  <span className="text-gray-800">
+                    {riskLevel === "high" ? "Bareng Jajal" : "Bareng Gigin"}
+                  </span>
                 </h3>
 
                 <div className="flex">
                   <div className="w-30 h-30 mr-3 -ml-4 -mt-8">
                     <Image
-                      src="/logo-confused.png"
+                      src={getCharacterImage()}
                       alt="Gigin dan Jajal"
                       width={240}
                       height={240}
@@ -70,9 +116,9 @@ export default function QuizResults() {
                   <div className="flex-1">
                     <p className="mb-2">
                       <span className="text-sm text-gray-800">
-                        Ginjalimu butuh perhatian ekstra. Jajal menyarankan kamu
-                        untuk lebih rutin cek kesehatan dan konsultasi jika
-                        perlu!
+                        {riskLevel === "high"
+                          ? "Ginjalimu butuh perhatian ekstra. Jajal menyarankan kamu untuk lebih rutin cek kesehatan dan konsultasi jika perlu!"
+                          : "Ginjalimu dalam kondisi baik. Teruskan pola hidup sehat untuk menjaganya tetap bugar!"}
                       </span>{" "}
                     </p>
                   </div>
@@ -85,10 +131,26 @@ export default function QuizResults() {
                 <span className="text-base font-semibold text-gray-800">
                   Tingkat Risiko:
                 </span>
-                <span className="text-yellow-500 font-medium">Medium (65%)</span>
+                <span
+                  className={`${riskLevel === "high" ? "text-red-500" : "text-green-500"} font-medium`}
+                >
+                  {riskLevel === "high" ? "Tinggi" : "Rendah"}
+                </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-yellow-400 h-2 rounded-full w-2/3"></div>
+              <div className="w-full bg-gray-200 rounded-full h-2 relative">
+                <div
+                  className={`${riskLevel === "high" ? "bg-red-500" : "bg-green-500"} h-2 rounded-full`}
+                  style={{ width: `${riskScore}%` }}
+                ></div>
+                <div
+                  className="absolute -bottom-6 text-xs text-gray-500"
+                  style={{
+                    left: `${riskScore}%`,
+                    transform: "translateX(-50%)",
+                  }}
+                >
+                  {Math.round(riskScore)}%
+                </div>
               </div>
             </div>
 
@@ -96,14 +158,14 @@ export default function QuizResults() {
               <span className="text-gray-800">
                 Berdasarkan jawaban Anda, risiko PGK Anda tergolong{" "}
               </span>
-              <span className="underline text-gray-800 font-bold">sedang</span>
+              <span className="underline text-gray-800 font-bold">
+                {riskLevel === "high" ? "tinggi" : "rendah"}
+              </span>
             </p>
             <p className="text-gray-800 text-sm">
-              Perhatian khusus diperlukan untuk beberapa faktor risiko Anda.{" "}
-              <span className="font-bold underline">
-                Konsultasikan dengan dokter
-              </span>{" "}
-              untuk langkah pencegahan.
+              {riskLevel === "high"
+                ? "Perhatian khusus diperlukan untuk beberapa faktor risiko Anda. Konsultasikan dengan dokter untuk langkah pencegahan."
+                : "Pertahankan gaya hidup sehat dan lakukan pemeriksaan kesehatan rutin untuk memantau kesehatan ginjal Anda."}
             </p>
           </div>
         </div>
@@ -113,7 +175,10 @@ export default function QuizResults() {
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <h3 className="flex items-center text-base font-medium -mt-4">
               <span className="text-gray-900 mr-1 font-bold">Rekomendasi</span>
-              <span className="text-gray-800"> dari Gigin!</span>
+              <span className="text-gray-800">
+                {" "}
+                dari {riskLevel === "high" ? "Jajal" : "Gigin"}!
+              </span>
               <div className="ml-auto">
                 <Image
                   src="/logo-confused.png"
@@ -199,31 +264,6 @@ export default function QuizResults() {
                   </p>
                 </div>
               </div>
-
-              <div className="flex">
-                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 flex-shrink-0">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-gray-500"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-gray-900">
-                    Kontrol Makanan
-                  </h4>
-                  <p className="text-xs text-gray-600">
-                    Batasi asupan natrium hingga kurang dari 2000mg per hari
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -294,3 +334,4 @@ export default function QuizResults() {
     </main>
   );
 }
+  

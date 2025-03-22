@@ -78,7 +78,9 @@ export default function QuizLanding() {
               <span className="text-sm">⏱️</span>
             </div>
             <div>
-              <h3 className="text-sm font-bold text-gray-800">Waktu Pengerjaan</h3>
+              <h3 className="text-sm font-bold text-gray-800">
+                Waktu Pengerjaan
+              </h3>
               <p className="text-xs text-gray-500">Sekitar 8-10 menit</p>
             </div>
           </div>
@@ -88,7 +90,9 @@ export default function QuizLanding() {
               <span className="text-sm">📋</span>
             </div>
             <div>
-              <h3 className="text-sm font-bold text-gray-800">Jumlah Pertanyaan</h3>
+              <h3 className="text-sm font-bold text-gray-800">
+                Jumlah Pertanyaan
+              </h3>
               <p className="text-xs text-gray-500">20 Pertanyaan</p>
             </div>
           </div>
