@@ -85,7 +85,7 @@ export default function QuizResults() {
                 <span className="text-base font-semibold text-gray-800">
                   Tingkat Risiko:
                 </span>
-                <span className="text-yellow-500 font-medium">Medium</span>
+                <span className="text-yellow-500 font-medium">Medium (65%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div className="bg-yellow-400 h-2 rounded-full w-2/3"></div>
@@ -230,7 +230,10 @@ export default function QuizResults() {
 
         {/* Action buttons */}
         <div className="space-y-3 mb-4">
-          <button className="w-full bg-red-500 text-white rounded-lg py-3 font-medium flex items-center justify-center">
+          <Link
+            href="/telemedis/dokter"
+            className="w-full bg-red-500 text-white rounded-lg py-3 font-medium flex items-center justify-center"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 mr-2"
@@ -244,9 +247,12 @@ export default function QuizResults() {
               />
             </svg>
             Konsultasi dengan Dokter
-          </button>
+          </Link>
 
-          <button className="w-full bg-white border border-gray-300 text-gray-700 rounded-lg py-3 font-medium flex items-center justify-center">
+          <Link
+            href="/telemedis/dipstick"
+            className="w-full bg-white border border-gray-300 text-gray-700 rounded-lg py-3 font-medium flex items-center justify-center"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 mr-2"
@@ -261,7 +267,7 @@ export default function QuizResults() {
               />
             </svg>
             Ketahui Dipstick
-          </button>
+          </Link>
 
           <button className="w-full bg-white border border-gray-300 text-gray-700 rounded-lg py-3 font-medium flex items-center justify-center">
             <svg

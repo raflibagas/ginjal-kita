@@ -272,14 +272,14 @@ export default function DiptrackInput() {
             <h3 className="text-sm font-medium mb-2 text-gray-800">Tanggal Pengujian</h3>
             <input
               type="date"
-              className="w-full p-2 border border-gray-400 rounded-md mb-4"
+              className="w-full p-2 border border-gray-400 rounded-md mb-4 text-gray-800"
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
 
             <h3 className="text-sm font-medium mb-2 text-gray-800">Catatan Tambahan</h3>
             <textarea
-              className="w-full p-2 border border-gray-400 rounded-md h-20 resize-none"
+              className="w-full p-2 border border-gray-400 rounded-md h-20 resize-none text-gray-800"
               placeholder="Masukkan catatan Anda..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

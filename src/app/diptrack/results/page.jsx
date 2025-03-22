@@ -11,6 +11,7 @@ export default function DiptrackResults() {
   const [expandedParam, setExpandedParam] = useState(null);
 
   // Mock data for results display
+  // Mock data for results display in app/diptrack/results/page.jsx
   const resultsData = {
     risk: "Very High Risk",
     date: "4 Mar 2025",
@@ -25,19 +26,37 @@ export default function DiptrackResults() {
         details:
           "Nilai urobilinogen 8 mg/dL menunjukkan kadar yang sangat tinggi. Ini dapat mengindikasikan masalah hati seperti hepatitis atau sirosis atau masalah hemolitik (kerusakan sel darah merah).",
       },
-      { id: "ph", name: "pH", value: "5.0", isAbnormal: false },
-      { id: "mic", name: "Mikroalbumin", value: "Negatif", isAbnormal: false },
       {
-        id: "cre",
-        name: "Kreatinin",
-        value: "3.0*",
+        id: "pro",
+        name: "Protein",
+        value: "30 mg/dL +*",
         isAbnormal: true,
         details:
-          "Nilai kreatinin 3.0 mg/dL menunjukkan kadar yang tinggi. Ini dapat mengindikasikan gangguan fungsi ginjal.",
+          "Adanya protein dalam urin (proteinuria) dapat mengindikasikan masalah ginjal, seperti kerusakan pada glomerulus atau nefropati diabetik.",
+      },
+      { id: "ph", name: "pH", value: "5.0", isAbnormal: false },
+      {
+        id: "blo",
+        name: "Darah",
+        value: "Small +*",
+        isAbnormal: true,
+        details:
+          "Adanya darah dalam urin (hematuria) bisa mengindikasikan infeksi saluran kemih, batu ginjal, atau kondisi lain yang memerlukan evaluasi medis.",
+      },
+      { id: "sg", name: "Berat Jenis", value: "1.025", isAbnormal: false },
+      { id: "ket", name: "Keton", value: "Negatif", isAbnormal: false },
+      { id: "bil", name: "Bilirubin", value: "Negatif", isAbnormal: false },
+      {
+        id: "glu",
+        name: "Glukosa",
+        value: "250*",
+        isAbnormal: true,
+        details:
+          "Glukosa dalam urin (glukosuria) dengan nilai 250 mg/dL dapat mengindikasikan diabetes atau gangguan toleransi glukosa yang memerlukan evaluasi lebih lanjut.",
       },
     ],
     implication:
-      "Hasil dipstick menunjukkan indikasi kuat adanya masalah ginjal. Segera konsultasikan dengan dokter untuk penanganan lanjutan.",
+      "Hasil dipstick menunjukkan indikasi adanya masalah ginjal dan kemungkinan diabetes. Terdapat protein dan darah dalam urin, serta kadar glukosa dan urobilinogen yang tinggi. Segera konsultasikan dengan dokter untuk penanganan lanjutan.",
   };
 
   const toggleParameterDetails = (paramId) => {
@@ -174,9 +193,7 @@ export default function DiptrackResults() {
 
         {/* Telemedicine section */}
         <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-          <h3 className="text-sm font-bold mb-2 text-gray-800">
-            Telemedicine
-          </h3>
+          <h3 className="text-sm font-bold mb-2 text-gray-800">Telemedicine</h3>
           <p className="text-xs text-gray-700 mb-3">
             Konsultasikan hasil Anda dengan dokter melalui chat
           </p>

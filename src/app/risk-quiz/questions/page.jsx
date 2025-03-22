@@ -48,18 +48,51 @@ const quizQuestions = [
     type: "number",
     placeholder: "contoh: 65",
   },
+  {
+    id: 6,
+    question: "Berapa Tinggi Badan Anda? (cm)",
+    type: "number",
+    placeholder: "contoh: 170",
+  },
+  {
+    id: 7,
+    question: "Apakah Anda Merokok?",
+    type: "radio",
+    options: [
+      { id: "yes", label: "Ya" },
+      { id: "no", label: "Tidak" },
+      { id: "former", label: "Pernah, tapi sudah berhenti" },
+    ],
+  },
+  {
+    id: 8,
+    question: "Berapa Banyak Air yang Anda Minum Setiap Hari?",
+    type: "radio",
+    options: [
+      { id: "less_than_1", label: "Kurang dari 1 liter" },
+      { id: "1_to_2", label: "1-2 liter" },
+      { id: "more_than_2", label: "Lebih dari 2 liter" },
+    ],
+  },
 ];
+
+// Divide questions into pages (4 questions per page)
+const questionsPerPage = 4;
+const groupedQuestions = [];
+for (let i = 0; i < quizQuestions.length; i += questionsPerPage) {
+  groupedQuestions.push(quizQuestions.slice(i, i + questionsPerPage));
+}
 
 export default function QuizQuestions() {
   const router = useRouter();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const [answers, setAnswers] = useState({});
   const [progress, setProgress] = useState(25); // Progress percentage
 
   const handleNext = () => {
-    if (currentQuestion < quizQuestions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setProgress(((currentQuestion + 2) / quizQuestions.length) * 100);
+    if (currentPage < groupedQuestions.length - 1) {
+      setCurrentPage(currentPage + 1);
+      setProgress(((currentPage + 2) / groupedQuestions.length) * 100);
     } else {
       // Submit answers and navigate to results
       router.push("/risk-quiz/results");
@@ -67,20 +100,18 @@ export default function QuizQuestions() {
   };
 
   const handlePrevious = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-      setProgress((currentQuestion / quizQuestions.length) * 100);
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+      setProgress((currentPage / groupedQuestions.length) * 100);
     }
   };
 
-  const handleAnswerChange = (value) => {
+  const handleAnswerChange = (questionId, value) => {
     setAnswers({
       ...answers,
-      [quizQuestions[currentQuestion].id]: value,
+      [questionId]: value,
     });
   };
-
-  const currentQuestionData = quizQuestions[currentQuestion];
 
   return (
     <main className="min-h-screen bg-red-50">
@@ -116,8 +147,8 @@ export default function QuizQuestions() {
         </div>
 
         {/* Progress bar */}
-        <div className="mb-8 -mt-4">
-          <p className="text-xs text-gray-500 mb-1">{`${currentQuestion + 1}/${quizQuestions.length} Halaman`}</p>
+        <div className="mb-4 -mt-4">
+          <p className="text-xs text-gray-500 mb-1">{`${currentPage + 1}/${groupedQuestions.length} Halaman`}</p>
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div
               className="bg-red-500 h-2.5 rounded-full"
@@ -126,54 +157,64 @@ export default function QuizQuestions() {
           </div>
         </div>
 
-        {/* Question */}
-        <div className="mb-6">
-          <div className="bg-white rounded-lg border border-gray-300 shadow-sm p-4 mb-4">
-            <h2 className="text-md font-medium mb-4 text-gray-900">
-              {currentQuestionData.question}
-            </h2>
+        {/* Questions for current page */}
+        <div className="bg-white rounded-lg border border-gray-300 shadow-sm p-4 mb-4">
+          {groupedQuestions[currentPage].map((question) => (
+            <div
+              key={question.id}
+              className="mb-5 pb-5 border-b border-gray-200 last:border-0 last:mb-0 last:pb-0"
+            >
+              <h2 className="text-md font-medium mb-3 text-gray-900">
+                {question.question}
+              </h2>
 
-            {currentQuestionData.type === "number" && (
-              <input
-                type="number"
-                placeholder={currentQuestionData.placeholder}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 placeholder:text-gray-400 text-gray-800"
-                value={answers[currentQuestionData.id] || ""}
-                onChange={(e) => handleAnswerChange(e.target.value)}
-              />
-            )}
+              {question.type === "number" && (
+                <input
+                  type="number"
+                  placeholder={question.placeholder}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 placeholder:text-gray-400 text-gray-800"
+                  value={answers[question.id] || ""}
+                  onChange={(e) =>
+                    handleAnswerChange(question.id, e.target.value)
+                  }
+                />
+              )}
 
-            {currentQuestionData.type === "radio" && (
-              <div className="space-y-3">
-                {currentQuestionData.options.map((option) => (
-                  <label
-                    key={option.id}
-                    className={`block p-3 border rounded-lg cursor-pointer ${
-                      answers[currentQuestionData.id] === option.id
-                        ? "border-red-500 bg-red-50"
-                        : "border-gray-300"
-                    }`}
-                  >
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        name={`question-${currentQuestionData.id}`}
-                        value={option.id}
-                        checked={answers[currentQuestionData.id] === option.id}
-                        onChange={() => handleAnswerChange(option.id)}
-                        // className="mr-2 text-red-500 focus:ring-red-500"
-                        className="mr-2 text-gray-800 focus:ring-blue-500 focus:ring-offset-red-100"
-                        style={{
-                          accentColor: "#EB5C59", // Force blue color for the radio button
-                        }}
-                      />
-                      <span className="text-gray-900">{option.label}</span>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
+              {question.type === "radio" && (
+                <div className="space-y-2">
+                  {question.options.map((option) => (
+                    <label
+                      key={option.id}
+                      className={`block p-2 border rounded-lg cursor-pointer ${
+                        answers[question.id] === option.id
+                          ? "border-red-500 bg-red-50"
+                          : "border-gray-300"
+                      }`}
+                    >
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          name={`question-${question.id}`}
+                          value={option.id}
+                          checked={answers[question.id] === option.id}
+                          onChange={() =>
+                            handleAnswerChange(question.id, option.id)
+                          }
+                          className="mr-2 text-gray-800 focus:ring-blue-500 focus:ring-offset-red-100"
+                          style={{
+                            accentColor: "#EB5C59",
+                          }}
+                        />
+                        <span className="text-gray-900 text-sm">
+                          {option.label}
+                        </span>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
 
         {/* Navigation buttons */}
@@ -181,11 +222,11 @@ export default function QuizQuestions() {
           <button
             onClick={handlePrevious}
             className={`flex-1 py-3 rounded-lg font-medium ${
-              currentQuestion === 0
+              currentPage === 0
                 ? "bg-gray-200 text-gray-500"
                 : "bg-white border border-gray-300 text-gray-700"
             }`}
-            disabled={currentQuestion === 0}
+            disabled={currentPage === 0}
           >
             Kembali
           </button>
@@ -194,9 +235,7 @@ export default function QuizQuestions() {
             onClick={handleNext}
             className="flex-1 bg-red-500 text-white rounded-lg py-3 font-medium"
           >
-            {currentQuestion === quizQuestions.length - 1
-              ? "Selesai"
-              : "Lanjut"}
+            {currentPage === groupedQuestions.length - 1 ? "Selesai" : "Lanjut"}
           </button>
         </div>
       </div>
