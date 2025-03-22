@@ -7,7 +7,7 @@ export default function Dashboard() {
     <main className="min-h-screen bg-red-50">
       <div className="max-w-lg mx-auto bg-red-50 min-h-screen px-8 py-6">
         {/* Header with avatar and product name */}
-        <header className="mb-6">
+        <header className="mb-4">
           <div className="flex justify-between items-center mb-2">
             <div className="flex-1"></div> {/* Left spacing */}
             <div className="flex items-center flex-1 justify-center">
@@ -29,7 +29,7 @@ export default function Dashboard() {
 
           <div className="border-b-2 border-opacity-5 border-gray-200 mt-4 mb-4"></div>
 
-          <h1 className="text-lg font-medium text-gray-600">
+          <h1 className="text-lg font-medium text-gray-800">
             Yuk Deteksi dan Cegah CKD Sejak Dini
           </h1>
         </header>
