@@ -1,12 +1,13 @@
 // app/telemedis/dipstick/payment/page.jsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function TelemedisDipstickPayment() {
+// Create a client component to handle the search params
+function PaymentContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const packageId = searchParams.get("package");
@@ -41,6 +42,198 @@ export default function TelemedisDipstickPayment() {
     alert("Pembayaran berhasil diproses!");
     router.push("/telemedis/dipstick/success");
   };
+
+  return (
+    <>
+      {/* Product Details */}
+      <div className="px-4 mb-4">
+        <div className="flex items-center bg-white p-3 rounded-lg border border-gray-200">
+          <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden mr-3">
+            <Image
+              src={packageData.image}
+              alt={packageData.name}
+              width={48}
+              height={48}
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <h3 className="text-sm font-medium text-gray-800">
+              {packageData.name}
+            </h3>
+            <p className="text-xs text-gray-500">(Untuk penggunaan 6 bulan)</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Shipping Address */}
+      <div className="px-4 mb-4">
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-sm font-medium text-gray-800">
+              Alamat Pengiriman
+            </h3>
+            <button className="text-red-500 text-xs font-medium">Ubah</button>
+          </div>
+          <p className="text-sm text-gray-600">{address.type}</p>
+          <p className="text-xs text-gray-500">{address.detail}</p>
+          <p className="text-xs text-gray-500">{address.phone}</p>
+        </div>
+      </div>
+
+      {/* Delivery Method */}
+      <div className="px-4 mb-4">
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <h3 className="text-sm font-medium mb-3 text-gray-800">
+            Metode Pengiriman
+          </h3>
+
+          <div className="space-y-2">
+            <label className="flex items-center p-2 border border-gray-300 rounded-lg">
+              <input
+                type="radio"
+                name="delivery"
+                className="h-4 w-4 text-red-500 focus:ring-red-500"
+                checked={deliveryMethod === "regular"}
+                onChange={() => setDeliveryMethod("regular")}
+              />
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium text-gray-800">
+                  Regular (2-3 hari)
+                </p>
+                <p className="text-xs text-gray-500">Rp 10.000</p>
+              </div>
+            </label>
+
+            <label className="flex items-center p-2 border border-gray-300 rounded-lg">
+              <input
+                type="radio"
+                name="delivery"
+                className="h-4 w-4 text-red-500 focus:ring-red-500"
+                checked={deliveryMethod === "express"}
+                onChange={() => setDeliveryMethod("express")}
+              />
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium text-gray-800">
+                  Express (1 hari)
+                </p>
+                <p className="text-xs text-gray-500">Rp 25.000</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/* Payment Method */}
+      <div className="px-4 mb-4">
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <h3 className="text-sm font-medium mb-3 text-gray-800">
+            Metode Pembayaran
+          </h3>
+
+          <div className="space-y-2">
+            <label className="flex items-center p-2 border border-gray-300 rounded-lg">
+              <input
+                type="radio"
+                name="payment"
+                className="h-4 w-4 text-red-500 focus:ring-red-500"
+                checked={paymentMethod === "transfer"}
+                onChange={() => setPaymentMethod("transfer")}
+              />
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-800">
+                  Transfer Bank
+                </p>
+              </div>
+            </label>
+
+            <label className="flex items-center p-2 border border-gray-300 rounded-lg">
+              <input
+                type="radio"
+                name="payment"
+                className="h-4 w-4 text-red-500 focus:ring-red-500"
+                checked={paymentMethod === "gopay"}
+                onChange={() => setPaymentMethod("gopay")}
+              />
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-800">Gopay</p>
+              </div>
+            </label>
+
+            <label className="flex items-center p-2 border border-gray-300 rounded-lg">
+              <input
+                type="radio"
+                name="payment"
+                className="h-4 w-4 text-red-500 focus:ring-red-500"
+                checked={paymentMethod === "cod"}
+                onChange={() => setPaymentMethod("cod")}
+              />
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-800">
+                  Cash on Delivery
+                </p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/* Payment Summary */}
+      <div className="px-4 mb-6">
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <h3 className="text-sm font-medium mb-3 text-gray-800">
+            Ringkasan Pembayaran
+          </h3>
+
+          <div className="space-y-2 mb-3">
+            <div className="flex justify-between">
+              <p className="text-sm text-gray-800">Harga Produk</p>
+              <p className="text-sm text-gray-800">
+                Rp {summary.productPrice.toLocaleString()}
+              </p>
+            </div>
+
+            <div className="flex justify-between">
+              <p className="text-sm text-red-500">Diskon</p>
+              <p className="text-sm text-red-500">
+                -Rp {summary.discount.toLocaleString()}
+              </p>
+            </div>
+
+            <div className="flex justify-between">
+              <p className="text-sm text-gray-800">Biaya Pengiriman</p>
+              <p className="text-sm text-gray-800">
+                Rp {summary.deliveryFee.toLocaleString()}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex justify-between pt-2 border-t">
+            <p className="text-sm font-medium text-gray-800">Total</p>
+            <p className="text-sm font-bold text-gray-800">
+              Rp {summary.total.toLocaleString()}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Checkout Button */}
+      <div className="px-4 pb-8">
+        <button
+          onClick={handlePay}
+          className="w-full bg-red-500 text-white py-3 rounded-md font-medium"
+        >
+          Bayar Sekarang
+        </button>
+      </div>
+    </>
+  );
+}
+
+// Main component with suspense boundary
+export default function TelemedisDipstickPayment() {
+  const [activeTab, setActiveTab] = useState("purchase");
+  const router = useRouter();
 
   return (
     <main className="min-h-screen bg-red-50">
@@ -104,171 +297,14 @@ export default function TelemedisDipstickPayment() {
           </div>
         </div>
 
-        {/* Product Details */}
-        <div className="px-4 mb-4">
-          <div className="flex items-center bg-white p-3 rounded-lg border border-gray-200">
-            <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden mr-3">
-              <Image
-                src={packageData.image}
-                alt={packageData.name}
-                width={48}
-                height={48}
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h3 className="text-sm font-medium text-gray-800">{packageData.name}</h3>
-              <p className="text-xs text-gray-500">
-                (Untuk penggunaan 6 bulan)
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Shipping Address */}
-        <div className="px-4 mb-4">
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-sm font-medium text-gray-800">Alamat Pengiriman</h3>
-              <button className="text-red-500 text-xs font-medium">Ubah</button>
-            </div>
-            <p className="text-sm text-gray-600">{address.type}</p>
-            <p className="text-xs text-gray-500">{address.detail}</p>
-            <p className="text-xs text-gray-500">{address.phone}</p>
-          </div>
-        </div>
-
-        {/* Delivery Method */}
-        <div className="px-4 mb-4">
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 className="text-sm font-medium mb-3 text-gray-800">Metode Pengiriman</h3>
-
-            <div className="space-y-2">
-              <label className="flex items-center p-2 border border-gray-300 rounded-lg">
-                <input
-                  type="radio"
-                  name="delivery"
-                  className="h-4 w-4 text-red-500 focus:ring-red-500"
-                  checked={deliveryMethod === "regular"}
-                  onChange={() => setDeliveryMethod("regular")}
-                />
-                <div className="ml-3 flex-1">
-                  <p className="text-sm font-medium text-gray-800">Regular (2-3 hari)</p>
-                  <p className="text-xs text-gray-500">Rp 10.000</p>
-                </div>
-              </label>
-
-              <label className="flex items-center p-2 border border-gray-300 rounded-lg">
-                <input
-                  type="radio"
-                  name="delivery"
-                  className="h-4 w-4 text-red-500 focus:ring-red-500"
-                  checked={deliveryMethod === "express"}
-                  onChange={() => setDeliveryMethod("express")}
-                />
-                <div className="ml-3 flex-1">
-                  <p className="text-sm font-medium text-gray-800">Express (1 hari)</p>
-                  <p className="text-xs text-gray-500">Rp 25.000</p>
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Payment Method */}
-        <div className="px-4 mb-4">
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 className="text-sm font-medium mb-3 text-gray-800">Metode Pembayaran</h3>
-
-            <div className="space-y-2">
-              <label className="flex items-center p-2 border border-gray-300 rounded-lg">
-                <input
-                  type="radio"
-                  name="payment"
-                  className="h-4 w-4 text-red-500 focus:ring-red-500"
-                  checked={paymentMethod === "transfer"}
-                  onChange={() => setPaymentMethod("transfer")}
-                />
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-800">Transfer Bank</p>
-                </div>
-              </label>
-
-              <label className="flex items-center p-2 border border-gray-300 rounded-lg">
-                <input
-                  type="radio"
-                  name="payment"
-                  className="h-4 w-4 text-red-500 focus:ring-red-500"
-                  checked={paymentMethod === "gopay"}
-                  onChange={() => setPaymentMethod("gopay")}
-                />
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-800">Gopay</p>
-                </div>
-              </label>
-
-              <label className="flex items-center p-2 border border-gray-300 rounded-lg">
-                <input
-                  type="radio"
-                  name="payment"
-                  className="h-4 w-4 text-red-500 focus:ring-red-500"
-                  checked={paymentMethod === "cod"}
-                  onChange={() => setPaymentMethod("cod")}
-                />
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-800">Cash on Delivery</p>
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Payment Summary */}
-        <div className="px-4 mb-6">
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 className="text-sm font-medium mb-3 text-gray-800">Ringkasan Pembayaran</h3>
-
-            <div className="space-y-2 mb-3">
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-800">Harga Produk</p>
-                <p className="text-sm text-gray-800">
-                  Rp {summary.productPrice.toLocaleString()}
-                </p>
-              </div>
-
-              <div className="flex justify-between">
-                <p className="text-sm text-red-500">Diskon</p>
-                <p className="text-sm text-red-500">
-                  -Rp {summary.discount.toLocaleString()}
-                </p>
-              </div>
-
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-800">Biaya Pengiriman</p>
-                <p className="text-sm text-gray-800">
-                  Rp {summary.deliveryFee.toLocaleString()}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-between pt-2 border-t">
-              <p className="text-sm font-medium text-gray-800">Total</p>
-              <p className="text-sm font-bold text-gray-800">
-                Rp {summary.total.toLocaleString()}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Checkout Button */}
-        <div className="px-4 pb-8">
-          <button
-            onClick={handlePay}
-            className="w-full bg-red-500 text-white py-3 rounded-md font-medium"
-          >
-            Bayar Sekarang
-          </button>
-        </div>
+        {/* Wrapped in Suspense */}
+        <Suspense
+          fallback={
+            <div className="p-4 text-center">Loading payment details...</div>
+          }
+        >
+          <PaymentContent />
+        </Suspense>
       </div>
     </main>
   );
