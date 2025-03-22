@@ -5,8 +5,17 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export default function KidneyQuestChallenges() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <KidneyQuestChallengesContent />
+    </Suspense>
+  );
+}
+
+function KidneyQuestChallengesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const difficultyLevel = searchParams.get("level") || "beginner";
