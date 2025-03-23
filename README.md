@@ -1,9 +1,10 @@
 Nama Kelompok 	: BANGAN 
-Nama Anggota 	  : - Aisyah Amalia 
-		              - Theresia Evelyn 
-		              - Rafli Bagas
-	            	  - Fauzan Nafi
-	            	  - Rumaisha Taqiyya
+Nama Anggota 	: 
+- Aisyah Amalia 
+- Theresia Evelyn 
+- Rafli Bagas
+- Fauzan Nafi
+- Rumaisha Taqiyya
 
 KETERANGAN: terdapat dua link github yang digunakan (link github ini untuk website) dan link github berikut (  untuk predictive model machine learning yang digunakan)
 
