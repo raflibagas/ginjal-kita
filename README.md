@@ -7,7 +7,7 @@ Nama Anggota 	:
 - Fauzan Nafi
 - Rumaisha Taqiyya
 
-KETERANGAN: terdapat dua link github yang digunakan (link github ini untuk website) dan link github berikut (  untuk predictive model machine learning yang digunakan)
+KETERANGAN: terdapat dua link github yang digunakan (link github ini untuk website) dan link github berikut ( https://github.com/raflibagas/ginjalkita-model untuk predictive model machine learning yang digunakan)
 
 GinjalKita - Deteksi Dini dan Manajemen Penyakit Ginjal Kronis
 
