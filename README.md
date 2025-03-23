@@ -1,4 +1,4 @@
-Nama Kelompok 	: BANGAN 
+Nama Kelompok : BANGAN 
 Nama Anggota 	: 
 - Aisyah Amalia 
 - Theresia Evelyn 
