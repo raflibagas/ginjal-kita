@@ -33,7 +33,7 @@ export default function QuizLanding() {
             </svg>
           </Link>
           <div className="flex-1 text-center ml-6">
-            <h1 className="text-sm font-bold text-gray-800">Quiz Risiko CKD</h1>
+            <h1 className="text-sm font-bold text-gray-800">Quiz Risiko PGK</h1>
             <p className="text-xs text-gray-500">Cek Risiko Anda</p>
           </div>
           <div className="w-14">

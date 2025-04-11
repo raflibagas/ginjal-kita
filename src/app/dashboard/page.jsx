@@ -30,7 +30,7 @@ export default function Dashboard() {
           <div className="border-b-2 border-opacity-5 border-gray-200 mt-4 mb-4"></div>
 
           <h1 className="text-lg font-medium text-gray-800">
-            Yuk Deteksi dan Cegah CKD Sejak Dini
+            Yuk Deteksi dan Cegah PGK Sejak Dini
           </h1>
         </header>
 
@@ -57,7 +57,7 @@ export default function Dashboard() {
             </div>
             <div>
               <h2 className="font-bold text-white">Risiko</h2>
-              <p className="text-sm text-white">Cek Risiko CKD</p>
+              <p className="text-sm text-white">Cek Risiko PGK</p>
             </div>
           </Link>
 
@@ -198,7 +198,7 @@ export default function Dashboard() {
               </div>
               <div className="flex flex-col justify-between">
                 <h3 className="text-base font-medium text-gray-800">
-                  Cara Seru Kurangi Risiko CKD dengan Bersepeda
+                  Cara Seru Kurangi Risiko PGK dengan Bersepeda
                 </h3>
                 <p className="text-xs text-gray-500">12 Jun 2025</p>
               </div>

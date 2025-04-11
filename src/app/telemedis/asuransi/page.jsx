@@ -15,9 +15,9 @@ export default function TelemedisFAQ() {
   const faqItems = [
     {
       id: 1,
-      question: "Apakah BPJS menanggung skrining CKD?",
+      question: "Apakah BPJS menanggung skrining PGK?",
       answer:
-        "Ya, BPJS Kesehatan menanggung skrining penyakit ginjal kronik (CKD) sebagai bagian dari program pencegahan penyakit. Namun, terdapat beberapa syarat yang harus dipenuhi, seperti rujukan dari dokter dan indikasi medis yang jelas.",
+        "Ya, BPJS Kesehatan menanggung skrining penyakit ginjal kronik (PGK) sebagai bagian dari program pencegahan penyakit. Namun, terdapat beberapa syarat yang harus dipenuhi, seperti rujukan dari dokter dan indikasi medis yang jelas.",
       category: "umum",
     },
     {
@@ -29,25 +29,25 @@ export default function TelemedisFAQ() {
     },
     {
       id: 3,
-      question: "Apakah asuransi swasta juga menanggung CKD dan cuci darah?",
+      question: "Apakah asuransi swasta juga menanggung PGK dan cuci darah?",
       answer:
-        "Sebagian besar asuransi swasta menanggung pengobatan CKD dan cuci darah, namun cakupan bervariasi tergantung pada paket dan polis yang Anda miliki. Beberapa asuransi mungkin memiliki masa tunggu atau tidak menanggung kondisi yang sudah ada sebelumnya. Pastikan untuk memeriksa detail polis Anda atau menghubungi pihak asuransi untuk konfirmasi cakupan.",
+        "Sebagian besar asuransi swasta menanggung pengobatan PGK dan cuci darah, namun cakupan bervariasi tergantung pada paket dan polis yang Anda miliki. Beberapa asuransi mungkin memiliki masa tunggu atau tidak menanggung kondisi yang sudah ada sebelumnya. Pastikan untuk memeriksa detail polis Anda atau menghubungi pihak asuransi untuk konfirmasi cakupan.",
       category: "umum",
     },
     {
       id: 4,
       question:
-        "Apa saja dokumen yang dibutuhkan untuk klaim asuransi swasta terkait CKD?",
+        "Apa saja dokumen yang dibutuhkan untuk klaim asuransi swasta terkait PGK?",
       answer:
-        "Dokumen yang umumnya dibutuhkan untuk klaim asuransi swasta terkait CKD meliputi: 1) Formulir klaim yang sudah diisi lengkap, 2) Surat keterangan dokter, 3) Hasil pemeriksaan laboratorium, 4) Riwayat medis, 5) Kuitansi pembayaran asli, 6) Fotokopi KTP, dan 7) Fotokopi kartu asuransi.",
+        "Dokumen yang umumnya dibutuhkan untuk klaim asuransi swasta terkait PGK meliputi: 1) Formulir klaim yang sudah diisi lengkap, 2) Surat keterangan dokter, 3) Hasil pemeriksaan laboratorium, 4) Riwayat medis, 5) Kuitansi pembayaran asli, 6) Fotokopi KTP, dan 7) Fotokopi kartu asuransi.",
       category: "umum",
     },
     {
       id: 5,
       question:
-        "Bagaimana jika saya belum terdaftar BPJS, apakah bisa mendaftar saat sudah terkena CKD?",
+        "Bagaimana jika saya belum terdaftar BPJS, apakah bisa mendaftar saat sudah terkena PGK?",
       answer:
-        "Ya, Anda masih bisa mendaftar BPJS Kesehatan meskipun sudah didiagnosis CKD. Namun, terdapat masa tunggu 14 hari sebelum Anda dapat menggunakan layanan untuk penyakit tersebut. Untuk kondisi kronis seperti CKD yang memerlukan pengobatan jangka panjang, sangat disarankan untuk segera mendaftar BPJS.",
+        "Ya, Anda masih bisa mendaftar BPJS Kesehatan meskipun sudah didiagnosis PGK. Namun, terdapat masa tunggu 14 hari sebelum Anda dapat menggunakan layanan untuk penyakit tersebut. Untuk kondisi kronis seperti PGK yang memerlukan pengobatan jangka panjang, sangat disarankan untuk segera mendaftar BPJS.",
       category: "umum",
     },
     {

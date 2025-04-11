@@ -72,7 +72,7 @@ export default function QuizResults() {
             </svg>
           </Link>
           <div className="flex-1 text-center ml-8">
-            <h1 className="text-sm font-bold text-gray-900">Quiz Risiko CKD</h1>
+            <h1 className="text-sm font-bold text-gray-900">Quiz Risiko PGK</h1>
             <p className="text-xs text-gray-500">Cek Risiko Anda</p>
           </div>
           <div className="w-14">
@@ -134,7 +134,8 @@ export default function QuizResults() {
                 <span
                   className={`${riskLevel === "high" ? "text-red-500" : "text-green-500"} font-medium`}
                 >
-                  {riskLevel === "high" ? "Tinggi" : "Rendah"}
+                  {riskLevel === "high" ? "Tinggi " : "Rendah "}
+                  {Math.round(riskScore)}%
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2 relative">
@@ -149,7 +150,6 @@ export default function QuizResults() {
                     transform: "translateX(-50%)",
                   }}
                 >
-                  {Math.round(riskScore)}%
                 </div>
               </div>
             </div>
@@ -290,7 +290,7 @@ export default function QuizResults() {
           </Link>
 
           <Link
-            href="/telemedis/dipstick"
+            href="/diptrack/info"
             className="w-full bg-white border border-gray-300 text-gray-700 rounded-lg py-3 font-medium flex items-center justify-center"
           >
             <svg
