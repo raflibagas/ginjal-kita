@@ -40,13 +40,13 @@ function PaymentContent() {
   const handlePay = () => {
     // Process payment and navigate to success page
     alert("Pembayaran berhasil diproses!");
-    router.push("/telemedis/dipstick/success");
+    router.push("/diptrack/info/success");
   };
 
   return (
     <>
       {/* Product Details */}
-      <div className="px-4 mb-4">
+      <div className="px-4 mb-2">
         <div className="flex items-center bg-white p-3 rounded-lg border border-gray-200">
           <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden mr-3">
             <Image
@@ -67,7 +67,7 @@ function PaymentContent() {
       </div>
 
       {/* Shipping Address */}
-      <div className="px-4 mb-4">
+      <div className="px-4 mb-2">
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-sm font-medium text-gray-800">
@@ -82,7 +82,7 @@ function PaymentContent() {
       </div>
 
       {/* Delivery Method */}
-      <div className="px-4 mb-4">
+      <div className="px-4 mb-2">
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <h3 className="text-sm font-medium mb-3 text-gray-800">
             Metode Pengiriman
@@ -125,7 +125,7 @@ function PaymentContent() {
       </div>
 
       {/* Payment Method */}
-      <div className="px-4 mb-4">
+      <div className="px-4 mb-2">
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <h3 className="text-sm font-medium mb-3 text-gray-800">
             Metode Pembayaran
@@ -179,7 +179,7 @@ function PaymentContent() {
       </div>
 
       {/* Payment Summary */}
-      <div className="px-4 mb-6">
+      <div className="px-4 mb-4">
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <h3 className="text-sm font-medium mb-3 text-gray-800">
             Ringkasan Pembayaran
@@ -242,7 +242,7 @@ export default function TelemedisDipstickPayment() {
         <div className="p-4">
           <div className="flex items-center -mt-4">
             <Link
-              href="/telemedis/dipstick/purchase"
+              href="/diptrack/info/purchase"
               className="flex items-center text-gray-600"
             >
               <svg
@@ -275,7 +275,7 @@ export default function TelemedisDipstickPayment() {
           </div>
 
           {/* Tabs */}
-          <div className="flex border-b border-gray-200">
+          <div className="flex border-b border-gray-200 -mt-2">
             <button
               className={`flex-1 py-2 text-center text-sm font-medium ${
                 activeTab === "information"

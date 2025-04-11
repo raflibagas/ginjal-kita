@@ -54,7 +54,7 @@ export default function OTPVerification() {
         <p className="text-lg text-gray-500 mt-1">
           Kami telah mengirimkan kode OTP ke <br />
           nomor ponsel Anda{" "}
-          <span className="text-gray-500">62 812 752 9976</span>
+          <span className="text-gray-500">+62 855 1704 434</span>
         </p>
         <p className="text-sm text-red-500 mt-1">Ubah</p>
       </div>
@@ -76,7 +76,7 @@ export default function OTPVerification() {
             />
           ))}
         </div>
-        <div className="text-left mt-8 mb-72">
+        <div className="text-left mt-8 mb-72 -ml-2">
           <p className="text-md text-gray-600">Belum menerima kode?</p>
           <button className="text-md text-red-500 font-medium">
             Kirim Ulang

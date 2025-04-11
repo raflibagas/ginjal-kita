@@ -354,13 +354,16 @@ export default function QuizQuestions() {
         setIsSubmitting(true);
 
         // Send answers to backend
-        const response = await fetch("http://127.0.0.1:5000/predict", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(answers),
-        });
+        const response = await fetch(
+          "https://ginjalkita-api-5da756be2fd5.herokuapp.com/predict",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(answers),
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -432,7 +435,7 @@ export default function QuizQuestions() {
         {/* Progress bar */}
         <div className="mb-4 -mt-4">
           <p className="text-xs text-gray-500 mb-1">{`${currentPage + 1}/${groupedQuestions.length} Halaman`}</p>
-          <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div className="w-full bg-white rounded-full h-2.5">
             <div
               className="bg-red-500 h-2.5 rounded-full"
               style={{ width: `${progress}%` }}

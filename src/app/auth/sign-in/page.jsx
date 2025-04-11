@@ -63,8 +63,8 @@ export default function SignIn() {
 
               <input
                 type="tel"
-                placeholder="812 752 9976"
-                className="flex-1 p-3 border border-gray-200 rounded-r-lg focus:outline-none text-gray-400"
+                placeholder="855 1704 434"
+                className="flex-1 p-3 border border-gray-200 rounded-r-lg focus:outline-none text-gray-700"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 required

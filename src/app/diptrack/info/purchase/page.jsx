@@ -12,14 +12,14 @@ export default function TelemedisDipstickPurchase() {
 
   const navigateToTab = (tab) => {
     if (tab === "information") {
-      router.push("/telemedis/dipstick");
+      router.push("/diptrack/info");
     } else {
       setActiveTab(tab);
     }
   };
 
   const handleBuyPackage = (packageId) => {
-    router.push(`/telemedis/dipstick/payment?package=${packageId}`);
+    router.push(`/diptrack/info/payment?package=${packageId}`);
   };
 
   // Mock packages data
@@ -62,7 +62,7 @@ export default function TelemedisDipstickPurchase() {
         {/* Header */}
         <div className="p-4">
           <div className="flex items-center -mt-4">
-            <Link href="/telemedis" className="flex items-center text-gray-600">
+            <Link href="/diptrack" className="flex items-center text-gray-600">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -91,7 +91,7 @@ export default function TelemedisDipstickPurchase() {
           </div>
 
           {/* Tabs */}
-          <div className="flex border-b border-gray-200">
+          <div className="flex border-b border-gray-200 -mt-2">
             <button
               className={`flex-1 py-2 text-center text-sm font-medium ${
                 activeTab === "information"
