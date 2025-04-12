@@ -107,7 +107,7 @@ export default function KidneyQuestWrap() {
       content: (
         <div className="relative w-full min-h-screen bg-[#ffecec] flex flex-col justify-between items-center px-4 py-6">
           {/* Header Title */}
-          <div className="bg-gradient-to-b from-red-400 to-red-300 rounded-t-xl text-white px-6 py-3 text-center w-full max-w-sm mx-auto mt-40 -mb-32">
+          <div className="bg-gradient-to-b from-red-400 to-red-300 rounded-t-xl text-white px-6 py-3 text-center w-full max-w-sm mx-auto mt-30 -mb-32">
             <h2 className="text-2xl font-bold">DipQuest Challenge</h2>
             <p className="text-base mt-1 mb-6">
               14 Hari Perjalanan Kesehatan Ginjal

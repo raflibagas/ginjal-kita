@@ -40,7 +40,7 @@ function PaymentContent() {
   const handlePay = () => {
     // Process payment and navigate to success page
     alert("Pembayaran berhasil diproses!");
-    router.push("/diptrack/info/success");
+    router.push("/diptrack/info");
   };
 
   return (

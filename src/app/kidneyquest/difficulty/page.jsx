@@ -215,7 +215,7 @@ export default function KidneyQuestDifficulty() {
           <div className="space-y-3">
             <div className="flex items-start">
               <div className="bg-yellow-100 rounded-full p-2 mr-3 flex-shrink-0">
-                <Image src="/trophy.png" alt="Trophy" width={20} height={20} />
+                <Image src="/Trophy.png" alt="Trophy" width={20} height={20} />
               </div>
               <div>
                 <h4 className="text-sm font-semibold text-gray-800">
