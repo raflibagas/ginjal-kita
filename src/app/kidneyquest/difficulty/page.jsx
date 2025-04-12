@@ -65,6 +65,27 @@ export default function KidneyQuestDifficulty() {
           </div>
         </div>
 
+        {/* Wrap-Up Preview Card */}
+        <div
+          className="mb-4 bg-yellow-100 rounded-lg p-4 shadow-sm cursor-pointer hover:bg-yellow-200 transition"
+          onClick={() => router.push("/kidneyquest/wrap")}
+        >
+          <div className="flex items-start">
+            <div className="rounded-full p-2 mr-3 flex-shrink-0 bg-white">
+              <Image src="/trophy.png" alt="Wrap Icon" width={24} height={24} />
+            </div>
+            <div>
+              <h2 className="text-sm font-bold mb-1 text-gray-800">
+                Lihat Perjalanan Anda!
+              </h2>
+              <p className="text-xs text-gray-700">
+                Temukan rangkuman 14 hari terakhir dan pencapaian Anda selama
+                tantangan.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <h2 className="text-lg font-bold mb-2 text-gray-800">
           Pilih Tingkat Tantangan
         </h2>

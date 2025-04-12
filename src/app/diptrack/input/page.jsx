@@ -20,6 +20,8 @@ export default function DiptrackInput() {
     KET: null,
     BIL: null,
     GLU: null,
+    MIC: null,
+    CRE: null,
   });
   const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
@@ -36,6 +38,8 @@ export default function DiptrackInput() {
     { id: "KET", name: "KET", fullName: "Keton", waitTime: "40 detik" },
     { id: "BIL", name: "BIL", fullName: "Bilirubin", waitTime: "30 detik" },
     { id: "GLU", name: "GLU", fullName: "Glukosa", waitTime: "30 detik" },
+    { id: "MIC", name: "MIC", fullName: "Microalbumin", waitTime: "30 detik" },
+    { id: "CRE", name: "CRE", fullName: "Creatinine", waitTime: "30 detik" },
   ];
 
   // Color options for each parameter
@@ -123,6 +127,19 @@ export default function DiptrackInput() {
       { value: "1000", color: "#5c8f36", label: "1 1000" },
       { value: "2000", color: "#754d26", label: ">2 >2000" },
     ],
+    MIC: [
+      { value: "10", color: "#eaf7f5", label: "10 mg/L" },
+      { value: "30", color: "#c6f0ed", label: "30 mg/L" },
+      { value: "80", color: "#a4e3e7", label: "80 mg/L" },
+      { value: "150", color: "#86d3e2", label: "150 mg/L" },
+    ],
+    CRE: [
+      { value: "90", color: "#e6d2db", label: "0.1 g/L (0.9 mmol/L)" },
+      { value: "440", color: "#c3b0c9", label: "0.5 g/L (4.4 mmol/L)" },
+      { value: "880", color: "#a78cb1", label: "1.0 g/L (8.8 mmol/L)" },
+      { value: "1770", color: "#7a6d91", label: "2.0 g/L (17.7 mmol/L)" },
+      { value: "2650", color: "#5a5373", label: "3.0 g/L (26.5 mmol/L)" },
+    ],
   };
 
   const handleColorSelect = (paramId, colorValue) => {
@@ -132,9 +149,69 @@ export default function DiptrackInput() {
     });
   };
 
+  function calculateGFR(creatinineUmol, age, sex) {
+    if (!creatinineUmol || !age || !sex) return null;
+
+    const Scr = parseFloat(creatinineUmol) / 88.4; // convert µmol/L to mg/dL
+    const Age = parseFloat(age);
+    const isFemale = sex === "female";
+
+    const k = isFemale ? 0.7 : 0.9;
+    const α = isFemale ? -0.241 : -0.302;
+    const sexFactor = isFemale ? 1.012 : 1;
+
+    const minPart = Math.pow(Math.min(Scr / k, 1), α);
+    const maxPart = Math.pow(Math.max(Scr / k, 1), -1.2);
+    const agePart = Math.pow(0.9938, Age);
+
+    const gfr = 142 * minPart * maxPart * agePart * sexFactor;
+    return gfr.toFixed(2); // return with 2 decimals
+  }
+
+  function calculateACR(albuminMgPerL, creatinineUmolPerL) {
+    if (!albuminMgPerL || !creatinineUmolPerL) return null;
+
+    const albuminMgPerdL = parseFloat(albuminMgPerL) / 10; // mg/L → mg/dL
+    const creatinineMgPerdL = parseFloat(creatinineUmolPerL) / 88.4; // µmol/L → mg/dL
+    const creatinineGPerdL = creatinineMgPerdL / 1000; // mg/dL → g/dL
+
+    const acr = albuminMgPerdL / creatinineGPerdL;
+    return acr.toFixed(2); // mg/g
+  }
+
   const handleSave = () => {
-    // Save the data and navigate to results page
-    router.push("/diptrack/results");
+    const creatinineValue = selectedColor.CRE;
+    const age = selectedColor.AGE;
+    const sex = selectedColor.SEX;
+    const gfr = calculateGFR(creatinineValue, age, sex);
+    const acr = calculateACR(selectedColor.MIC, creatinineValue);
+    const riskLevel = gfr >= 45 && acr <= 300 ? "low" : "high";
+
+    // Combine selectedColor with labels for better result display
+    const labeledParameters = Object.entries(selectedColor).map(
+      ([paramId, value]) => {
+        const label =
+          colorOptions[paramId]?.find((opt) => opt.value === value)?.label ||
+          value;
+        return {
+          id: paramId,
+          name: parameters.find((p) => p.id === paramId)?.fullName || paramId,
+          value: label,
+        };
+      }
+    );
+
+    const resultData = {
+      parameters: labeledParameters,
+      gfr: parseFloat(gfr).toFixed(2),
+      acr: parseFloat(acr).toFixed(2),
+      risk: riskLevel,
+      date,
+      notes,
+    };
+
+    localStorage.setItem("diptrackResult", JSON.stringify(resultData));
+    router.push("/diptrack/input/results");
   };
 
   return (
@@ -221,7 +298,7 @@ export default function DiptrackInput() {
                 colorOptions[activeTab].map((option, index) => (
                   <button
                     key={index}
-                    className={` overflow-hidden border-2 ${
+                    className={` overflow-hidden border-2 rounded-xl ${
                       selectedColor[activeTab] === option.value
                         ? "border-red-500"
                         : "border-transparent"
@@ -247,16 +324,22 @@ export default function DiptrackInput() {
             </h3>
             <div className="grid grid-cols-3 gap-2 mb-4">
               {Object.entries(selectedColor)
-                .filter(([_, value]) => value !== null)
+                .filter(
+                  ([paramId, value]) =>
+                    value !== null &&
+                    value !== "" &&
+                    paramId !== "AGE" &&
+                    paramId !== "SEX"
+                )
                 .map(([paramId, value]) => {
                   const param = parameters.find((p) => p.id === paramId);
-                  const colorOption = colorOptions[paramId].find(
+                  const colorOption = colorOptions[paramId]?.find(
                     (opt) => opt.value === value
                   );
                   return (
                     <div
                       key={paramId}
-                      className="bg-gray-50 p-2 rounded text-xs"
+                      className="bg-gray-100 p-2 rounded text-xs"
                     >
                       <div
                         className="h-4 w-full mb-1 rounded"
@@ -267,11 +350,51 @@ export default function DiptrackInput() {
                         }}
                       ></div>
                       <p className="text-gray-800 text-center">
-                        {param?.name}: {colorOption?.label || "N/A"}
+                        {param?.name}: {colorOption?.label || value}
                       </p>
                     </div>
                   );
                 })}
+            </div>
+          </div>
+
+          {/* Demografi Pengguna (Age & Sex) */}
+          <div className="mb-4">
+            {/* Age Input */}
+            <div className="mb-3">
+              <label
+                htmlFor="age"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Usia Anda (tahun)
+              </label>
+              <input
+                type="number"
+                id="age"
+                value={selectedColor.AGE || ""}
+                onChange={(e) => handleColorSelect("AGE", e.target.value)}
+                className="w-full p-2 border border-gray-400 rounded-md text-sm text-gray-800"
+              />
+            </div>
+
+            {/* Sex Selection */}
+            <div>
+              <label
+                htmlFor="sex"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Jenis Kelamin
+              </label>
+              <select
+                id="sex"
+                value={selectedColor.SEX || ""}
+                onChange={(e) => handleColorSelect("SEX", e.target.value)}
+                className="w-full p-2 border border-gray-400 rounded-md text-sm text-gray-800"
+              >
+                <option value="">Pilih jenis kelamin</option>
+                <option value="male">Laki-laki</option>
+                <option value="female">Perempuan</option>
+              </select>
             </div>
           </div>
 

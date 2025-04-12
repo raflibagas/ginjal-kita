@@ -1,70 +1,25 @@
 // app/diptrack/results/page.jsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function DiptrackResults() {
-  const router = useRouter();
   const [expandedParam, setExpandedParam] = useState(null);
+  const [resultData, setResultData] = useState(null);
+  const router = useRouter();
 
-  // Mock data for results display
-  // Mock data for results display in app/diptrack/results/page.jsx
-  const resultsData = {
-    risk: "Very High Risk",
-    date: "4 Mar 2025",
-    parameters: [
-      { id: "leu", name: "Leukosit", value: "Negatif", isAbnormal: false },
-      { id: "nit", name: "Nitrit", value: "Negative", isAbnormal: false },
-      {
-        id: "uro",
-        name: "Urobilinogen",
-        value: "8*",
-        isAbnormal: true,
-        details:
-          "Nilai urobilinogen 8 mg/dL menunjukkan kadar yang sangat tinggi. Ini dapat mengindikasikan masalah hati seperti hepatitis atau sirosis atau masalah hemolitik (kerusakan sel darah merah).",
-      },
-      {
-        id: "pro",
-        name: "Protein",
-        value: "30 mg/dL +*",
-        isAbnormal: true,
-        details:
-          "Adanya protein dalam urin (proteinuria) dapat mengindikasikan masalah ginjal, seperti kerusakan pada glomerulus atau nefropati diabetik.",
-      },
-      { id: "ph", name: "pH", value: "5.0", isAbnormal: false },
-      {
-        id: "blo",
-        name: "Darah",
-        value: "Small +*",
-        isAbnormal: true,
-        details:
-          "Adanya darah dalam urin (hematuria) bisa mengindikasikan infeksi saluran kemih, batu ginjal, atau kondisi lain yang memerlukan evaluasi medis.",
-      },
-      { id: "sg", name: "Berat Jenis", value: "1.025", isAbnormal: false },
-      { id: "ket", name: "Keton", value: "Negatif", isAbnormal: false },
-      { id: "bil", name: "Bilirubin", value: "Negatif", isAbnormal: false },
-      {
-        id: "glu",
-        name: "Glukosa",
-        value: "250*",
-        isAbnormal: true,
-        details:
-          "Glukosa dalam urin (glukosuria) dengan nilai 250 mg/dL dapat mengindikasikan diabetes atau gangguan toleransi glukosa yang memerlukan evaluasi lebih lanjut.",
-      },
-    ],
-    implication:
-      "Hasil dipstick menunjukkan indikasi adanya masalah ginjal dan kemungkinan diabetes. Terdapat protein dan darah dalam urin, serta kadar glukosa dan urobilinogen yang tinggi. Segera konsultasikan dengan dokter untuk penanganan lanjutan.",
-  };
+  useEffect(() => {
+    const saved = localStorage.getItem("diptrackResult");
+    if (saved) {
+      setResultData(JSON.parse(saved));
+    }
+  }, []);
 
   const toggleParameterDetails = (paramId) => {
-    if (expandedParam === paramId) {
-      setExpandedParam(null);
-    } else {
-      setExpandedParam(paramId);
-    }
+    setExpandedParam(expandedParam === paramId ? null : paramId);
   };
 
   const handleScheduleConsultation = () => {
@@ -76,8 +31,15 @@ export default function DiptrackResults() {
   };
 
   const handleDownload = () => {
-    // Implementation for downloading results
     alert("Mengunduh hasil...");
+  };
+
+  const getImplicationMessage = (risk) => {
+    if (risk === "high") {
+      return "Hasil menunjukkan risiko tinggi terhadap penyakit ginjal. Disarankan segera konsultasi ke dokter untuk evaluasi lebih lanjut.";
+    } else {
+      return "Tidak ditemukan indikasi signifikan. Namun, tetap pantau secara berkala dan pertahankan gaya hidup sehat.";
+    }
   };
 
   return (
@@ -89,8 +51,8 @@ export default function DiptrackResults() {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
-              viewBox="0 0 20 20"
               fill="currentColor"
+              viewBox="0 0 20 20"
             >
               <path
                 fillRule="evenodd"
@@ -113,91 +75,107 @@ export default function DiptrackResults() {
           </div>
         </div>
 
-        {/* Results overview */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-          <h2 className="text-lg font-medium mb-3 text-gray-800">
-            Hasil Dipstick Anda
-          </h2>
+        {/* Overview */}
+        {resultData && (
+          <>
+            {/* Summary Section */}
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+              <h2 className="text-lg font-bold text-gray-800 mb-2">
+                Hasil Dipstick Anda
+              </h2>
+              <div className="flex items-start mb-3">
+                <div
+                  className={`h-12 w-3 rounded-full mr-3  ${
+                    resultData?.risk === "high" ? "bg-red-600" : "bg-green-500"
+                  }`}
+                ></div>
 
-          <div className="flex items-start mb-3">
-            <div className="h-8 w-6 bg-red-600 mr-2 flex-shrink-0 rounded-lg"></div>
-            <div>
-              <p className="text-sm font-medium text-gray-800">
-                {resultsData.risk}
-              </p>
-              <p className="text-xs text-gray-500">{resultsData.date}</p>
-            </div>
-          </div>
-
-          {/* Detailed results */}
-          <div className="mb-4">
-            <h3 className="text-sm font-medium mb-2 text-gray-800">
-              Detail Hasil
-            </h3>
-
-            <div className="space-y-2">
-              {resultsData.parameters.map((param) => (
-                <div key={param.id}>
-                  {/* Parameter display */}
-                  <div
-                    className={`bg-gray-100 p-3 rounded ${param.isAbnormal ? "border-l-4 border-red-500" : ""}`}
-                    onClick={() =>
-                      param.isAbnormal && toggleParameterDetails(param.id)
-                    }
+                <div>
+                  <p
+                    className={`text-sm font-semibold mb-2 ${
+                      resultData?.risk === "high"
+                        ? "text-red-600"
+                        : "text-green-600"
+                    }`}
                   >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-sm text-gray-800">
-                          <span className="font-bold">{param.name}:</span>
-                          <span className="ml-1">{param.value}</span>
-                        </p>
-                      </div>
-                      {param.isAbnormal && (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 text-gray-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Expandable details for abnormal values */}
-                  {param.isAbnormal && expandedParam === param.id && (
-                    <div className="bg-gray-800 text-gray-200 p-3 rounded-b-lg mt-0">
-                      <p className="text-xs">{param.details}</p>
-                    </div>
-                  )}
+                    {/* Risk Level:{" "} */}
+                    {resultData?.risk === "high"
+                      ? "Siaga Bareng Jajal"
+                      : "Bugar Bareng Gigin"}
+                  </p>
+                  <p className="text-sm text-gray-800 mt-0.5">
+                    {resultData?.date || "Tanggal tidak tersedia"}
+                  </p>
                 </div>
-              ))}
+              </div>
+
+              {/* Display GFR and ACR */}
+              <div className="mb-4 text-sm text-gray-800 space-y-1">
+                <p>
+                  <strong>eGFR:</strong> {resultData?.gfr} mL/min/1.73m²{" "}
+                  <span className="text-sm text-gray-500">(Normal: ≥ 45)</span>
+                </p>
+                <p>
+                  <strong>ACR:</strong> {resultData?.acr} mg/g{" "}
+                  <span className="text-sm text-gray-500">
+                    (Normal: ≤ 300)
+                  </span>
+                </p>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Implication explanation */}
+            {/* Dynamic Parameter List */}
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+              <h3 className="mb-2 text-base font-bold text-gray-800 -mt-1">
+                Detail Hasil
+              </h3>
+
+              <div className="grid grid-cols-2 gap-3">
+                {resultData?.parameters &&
+                  resultData.parameters.map((param) => (
+                    <div
+                      key={param.id}
+                      className="bg-gray-100 p-3 rounded shadow-sm text-center"
+                    >
+                      <p className="text-xs font-medium text-gray-500">
+                        {param.name}
+                      </p>
+                      <p className="text-sm font-bold text-gray-800 mt-1">
+                        {param.value}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* Implication Section */}
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+              <div className="flex justify-between items-center">
+                <h3 className="mb-2 text-base font-bold text-gray-800 -mt-1">
+                  Penjelasan Implikasi
+                </h3>
+                {/* <Image
+                  src="/logo-vegetables.png"
+                  alt="Gigin dan Jajal"
+                  width={60}
+                  height={60}
+                /> */}
+              </div>
+              <p className="text-sm text-gray-800">
+                {getImplicationMessage(resultData.risk)}
+              </p>
+            </div>
+          </>
+        )}
+
+        {/* Telemedicine */}
         <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-          <h3 className="text-sm font-bold mb-2 text-gray-800">
-            Penjelasan Implikasi
+          <h3 className="mb-2 text-base font-bold text-gray-800 -mt-1">
+            Telemedicine
           </h3>
-          <p className="text-xs text-gray-700">{resultsData.implication}</p>
-        </div>
-
-        {/* Telemedicine section */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-          <h3 className="text-sm font-bold mb-2 text-gray-800">Telemedicine</h3>
-          <p className="text-xs text-gray-700 mb-3">
+          <p className="text-sm text-gray-800 mb-3">
             Konsultasikan hasil Anda dengan dokter melalui chat
           </p>
-
           <button
             onClick={handleScheduleConsultation}
             className="w-full bg-green-500 text-white py-2 rounded-md font-medium text-sm"
@@ -214,7 +192,6 @@ export default function DiptrackResults() {
           >
             Kembali
           </button>
-
           <button
             onClick={handleDownload}
             className="flex-1 bg-red-400 text-white py-2 rounded-md font-medium text-sm"
