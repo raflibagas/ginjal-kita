@@ -72,7 +72,7 @@ export default function KidneyQuestDifficulty() {
         >
           <div className="flex items-start">
             <div className="rounded-full p-2 mr-3 flex-shrink-0 bg-white">
-              <Image src="/trophy.png" alt="Wrap Icon" width={24} height={24} />
+              <Image src="/Trophy.png" alt="Wrap Icon" width={24} height={24} />
             </div>
             <div>
               <h2 className="text-sm font-bold mb-1 text-gray-800">
