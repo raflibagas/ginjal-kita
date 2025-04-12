@@ -12,6 +12,9 @@ const inter = Inter({
 export const metadata = {
   title: "GinjalKita - Deteksi Dini Penyakit Ginjal Kronis",
   description: "Aplikasi untuk deteksi dini dan monitoring kesehatan ginjal",
+  icons: {
+    icon: "/logo.png", // or .png if you're using that
+  },
 };
 
 export default function RootLayout({ children }) {
